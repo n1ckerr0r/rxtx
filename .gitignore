@@ -1,0 +1,11 @@
+#clion build
+build/
+
+#vs code settings
+.vscode/
+
+#.idea/
+.idea/
+
+#cmake
+CMakeLists.txt
