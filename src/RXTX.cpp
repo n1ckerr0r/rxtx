@@ -48,12 +48,7 @@ void RXTX::SaveData(std::vector<uint32_t> &message){
     uint64_t zero_index = std::find(message.begin(), message.end(), 0) - message.begin();
     for (uint64_t index = zero_index+1; index < message.size()-1; index++) data.push_back(message[index]);
 
-    std::cout << "data: " << data << '\n';
-    std::cout << "index: " << index_ << '\n';
-
     data_ = data;
-
-    std::cout << "data_: " << data_ << '\n';
 }
 
 uint32_t RXTX::GetIndex(){

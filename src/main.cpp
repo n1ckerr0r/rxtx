@@ -46,14 +46,10 @@ uint64_t InputData(std::vector<uint32_t> &data, char* argv[], uint32_t arg_index
     for (uint64_t index = 0; index < strlen(str_data); index++){
         count_bite = index % difference;
         if (count_bite == 0) temp = 0;
-        std::cout << (uint32_t) str_data[index] << ' ' << (difference - count_bite - 1) * 8 << '\n';
         temp |= ((uint32_t) str_data[index]) << (difference - count_bite - 1) * 8;
         if (count_bite == difference || index == strlen(str_data)-1) data.push_back(temp);
     }
 
-    std::cout << data << '\n';
-
-    printf("end=%d\n", arg_index);
     return arg_index;
 }
 
@@ -63,9 +59,6 @@ uint64_t InputRxtxNums(std::vector<uint32_t> &rxtx_nums, char* argv[], uint32_t 
         arg_index++;
     }
 
-    std::cout << rxtx_nums << '\n';
-
-    printf("end=%d\n", arg_index-1);
     return arg_index-1;
 }
 
@@ -75,9 +68,6 @@ uint64_t InputRxtxField(std::vector<uint32_t> &rxtx_field, char* argv[], uint32_
         arg_index++;
     }
 
-    std::cout << rxtx_field << '\n';
-
-    printf("end=%d\n", arg_index-1);
     return arg_index-1;
 }
 
@@ -113,7 +103,7 @@ void UpdateMessage(std::vector<uint32_t> &message, std::vector<uint32_t> &rxtx_n
     for (uint32_t index = 0; index < data.size(); index++) message.push_back(data[index]);
     AddCrc16(message);
 
-    std::cout << message << '\n';
+    std::cout << "full message: " << message << '\n';
 }
 
 void UpdateRxtx(std::vector<uint32_t> &rxtx_nums, std::vector<RXTX> &rxtxs){
@@ -125,9 +115,6 @@ void UpdateRxtx(std::vector<uint32_t> &rxtx_nums, std::vector<RXTX> &rxtxs){
         }
         if (!already_exist) rxtxs.push_back(new_rxtx);
     }
-
-    printf("rxtx:\n");
-    for (auto i : rxtxs) printf("%d\n", i.GetIndex());
 }
 
 void Transfer(std::vector<uint32_t> &rxtxs_numbers, std::vector<RXTX> &rxtxs, std::vector<uint32_t> &message){
@@ -170,8 +157,11 @@ int main(int argc, char* argv[]){
             if (CanTransfer(message, rxtx_nums, rxtx_field)){
                 UpdateRxtx(rxtx_nums, rxtxs);
                 Transfer(rxtx_nums, rxtxs, message);
-                for (auto i : rxtxs) std::cout << i.GetIndex() << ' ' << i.GetData() << '\n';
-                std::cout << "okay" << '\n';
+                std::cout << "Information on rxtxs\n";
+
+                for (auto current_rxtx : rxtxs) {
+                    std::cout << "index: " << current_rxtx.GetIndex() << ' ' << "data: " << current_rxtx.GetData() << '\n';
+                }
             }
         }
         else {
